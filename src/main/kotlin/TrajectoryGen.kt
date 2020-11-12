@@ -17,8 +17,8 @@ object TrajectoryGen {
 
 
     fun createTrajectory(): ArrayList<Trajectory> {
-        //return testUltimateGoalPath()
-        return testHeadingInterpolators()
+        return testUltimateGoalPath()
+        //return testHeadingInterpolators()
     }
 
     fun testUltimateGoalPath(): ArrayList<Trajectory> {
