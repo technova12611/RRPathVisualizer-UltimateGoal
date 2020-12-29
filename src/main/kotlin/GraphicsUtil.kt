@@ -107,8 +107,10 @@ object GraphicsUtil {
 
         if(ring) {
             setColor(RING_COLOR)
-        } else {
+        } else if(center.y < 0){
             setColor(Color.RED)
+        } else {
+            setColor(Color.BLUE)
         }
         gc.fillRoundRect(center_pix.x - pix_w / 2.0, center_pix.y - pix_h / 2.0, pix_w, pix_h, pix_w, pix_h)
     }
@@ -126,7 +128,11 @@ object GraphicsUtil {
         val pix_w = r * pixelsPerInch * 2.0
         val pix_h = r * pixelsPerInch * 2.0
 
-        setColor(Color.RED)
+        if(center.y < 0){
+            setColor(Color.RED)
+        } else {
+            setColor(Color.BLUE)
+        }
         gc.fillRoundRect(center_pix.x - pix_w / 2.0, center_pix.y - pix_h / 2.0, pix_w, pix_h, pix_w, pix_h)
         gc.globalAlpha = 0.3
 

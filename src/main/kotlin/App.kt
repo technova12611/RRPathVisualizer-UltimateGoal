@@ -20,7 +20,7 @@ import javafx.util.Duration
 
 class App : Application() {
 
-    val isBlueAlliance = false
+    val isBlueAlliance = true
 
     val robotRect = Rectangle(100.0, 100.0, 10.0, 10.0)
     val startRect = Rectangle(100.0, 100.0, 10.0, 10.0)
