@@ -8,15 +8,15 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 object TrajectoryGenBlue {
-    private val accelConstraint = ProfileAccelerationConstraint(45.0);
+    private val accelConstraint = ProfileAccelerationConstraint(60.0);
     private val constraints = MinVelocityConstraint(
         Arrays.asList(
             AngularVelocityConstraint(180.0.toRadians),
-            MecanumVelocityConstraint(45.0, 13.5)
+            MecanumVelocityConstraint(60.0, 13.5)
         ))
 
     fun createTrajectory(): ArrayList<Trajectory> {
-        return testUltimateGoalPath()
+        return testUltimateGoalPath3()
     }
     /**
      * This is a demo to showcase different path builder functions
@@ -26,7 +26,7 @@ object TrajectoryGenBlue {
      *               |
      *               |
      *               |
-     * (+y) -------(0,0)--- o (Robot) --- (-y)
+     * (+y) -------(0,0)------ (-y)
      *               |
      *               |
      *               |
@@ -79,10 +79,90 @@ object TrajectoryGenBlue {
         return list
     }
 
+    fun testUltimateGoalPath2(): ArrayList<Trajectory> {
+
+        val list = ArrayList<Trajectory>()
+        var builder0 = TrajectoryBuilder(Pose2d(-63.0, 16.0, 0.0.toRadians), 0.0.toRadians,constraints, accelConstraint)
+
+        // strafe to powershot
+        builder0.lineToLinearHeading(Pose2d(0.0,6.0,0.0))
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(0.0, 6.0, 10.0.toRadians), 0.0.toRadians,constraints, accelConstraint)
+        builder0.splineToLinearHeading(Pose2d(61.0, 48.0,0.0), 0.0.toRadians)
+        list.add(builder0.build())
+
+        // forward to pick up 1,2,3 rings
+
+        builder0 = TrajectoryBuilder(Pose2d(61.0, 48.0,0.0.toRadians),true, constraints, accelConstraint)
+        builder0.lineTo(Vector2d(-12.0, 36.0),)
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(-12.0, 36.0,0.0.toRadians), 0.0.toRadians,constraints, accelConstraint)
+        builder0.back(10.0)
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(-22.0, 36.0,0.0.toRadians), 0.0.toRadians,constraints, accelConstraint)
+        builder0.back(8.0)
+        list.add(builder0.build())
+
+        // pick up 2nd wobble
+        builder0 = TrajectoryBuilder(Pose2d(-30.0, 36.0,0.0.toRadians), 0.0.toRadians,constraints, accelConstraint)
+        builder0.lineToLinearHeading(Pose2d(-42.0, 36.0, 0.0.toRadians))
+        list.add(builder0.build())
+
+        // drop second wobble
+        builder0 = TrajectoryBuilder(Pose2d(-42.0, 36.0,0.0.toRadians), 0.0,constraints, accelConstraint)
+        builder0.splineToLinearHeading(Pose2d(56.0, 48.0, (-90.0).toRadians), 0.0)
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(56.0, 48.0, (-90.0).toRadians),(-90.0).toRadians, constraints, accelConstraint)
+        builder0.splineToLinearHeading(Pose2d(12.0, 36.0, 0.0.toRadians),(180.0).toRadians)
+        list.add(builder0.build())
+
+        return list
+    }
+
+    fun testUltimateGoalPath3(): ArrayList<Trajectory> {
+
+        val list = ArrayList<Trajectory>()
+        var builder0 = TrajectoryBuilder(Pose2d(-63.0, 16.0, 0.0.toRadians), 0.0.toRadians,constraints, accelConstraint)
+
+        // strafe to powershot
+        builder0.lineToLinearHeading(Pose2d(0.0,6.0,0.0))
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(0.0, 6.0, (-10.0.toRadians)), 0.0.toRadians,constraints, accelConstraint)
+        builder0.splineTo(Vector2d(50.0, -10.0), (30.0).toRadians)
+        list.add(builder0.build())
+
+
+        builder0 = TrajectoryBuilder(Pose2d(50.0, -10.0, (30.0.toRadians)), 30.0.toRadians,constraints, accelConstraint)
+        builder0.splineTo(Vector2d(30.0, 55.0), (30.0).toRadians)
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(30.0, 55.0,30.0.toRadians),true, constraints, accelConstraint)
+        builder0.lineToLinearHeading(Pose2d(-42.0, 30.0, 0.0.toRadians))
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(-42.0, 30.0,0.0.toRadians), 0.0,constraints, accelConstraint)
+        builder0.splineToLinearHeading(Pose2d(20.0, 48.0, (0.0).toRadians), 0.0)
+        list.add(builder0.build())
+
+        builder0 = TrajectoryBuilder(Pose2d(20.0, 48.0, (0.0).toRadians),(0.0).toRadians, constraints, accelConstraint)
+        builder0.lineTo(Vector2d(15.0, 10.0))
+        list.add(builder0.build())
+
+        return list
+    }
+
+
     fun drawOffbounds1() {
-        GraphicsUtil.fillShootingPosition(Vector2d(-36.0,15.0))
+        GraphicsUtil.fillShootingPosition(Vector2d(-3.0,6.0))
+        GraphicsUtil.fillShootingPosition(Vector2d(-3.0,11.0))
+        GraphicsUtil.fillShootingPosition(Vector2d(-3.0,16.0))
+        GraphicsUtil.fillShootingPosition(Vector2d(-30.0,36.0))
         GraphicsUtil.fillShootingPosition(Vector2d(-36.0,36.0))
-        GraphicsUtil.fillShootingPosition(Vector2d(-8.0,36.0))
 
         GraphicsUtil.fillRect(Vector2d(12.0, 36.0), 18.0, 18.0, false) // robot against the wall
     }

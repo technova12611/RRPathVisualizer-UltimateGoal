@@ -45,9 +45,11 @@ object TrajectoryGen {
         builder0.lineToLinearHeading(Pose2d(-33.0, -40.0, 0.0.toRadians))
         list.add(builder0.build())
 
+//        val callabck = MarkerCallback { println("test marker 0....")}
+
         builder0 = TrajectoryBuilder(Pose2d(-33.0, -40.0,0.0.toRadians), true,constraints, accelConstraint)
         builder0.lineToLinearHeading(Pose2d(55.0, -48.0, 0.0))
-        //  .addTemporalMarker(1.0, MarkerCallback{ println("test marker 0....")})
+          .addTemporalMarker(1.0, MarkerCallback{ println("test marker 0....")})
         list.add(builder0.build())
 
         builder0 = TrajectoryBuilder(Pose2d(55.0, -48.0,0.0.toRadians), true,constraints, accelConstraint)
